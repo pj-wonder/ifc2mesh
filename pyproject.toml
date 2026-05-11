@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ifc2mesh"
+version = "0.1.0"
+description = "Utilities for converting IFC structural models into meshes, point-cloud labels, and fitted nodes."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "Pengjie Wan", email = "220251500@seu.edu.cn" }
+]
+dependencies = [
+  "numpy>=1.24",
+  "open3d>=0.18",
+  "ifcopenshell",
+  "ezdxf>=1.1",
+  "matplotlib>=3.7",
+]
+
+[project.optional-dependencies]
+gpu = [
+  "torch>=2.2",
+]
+dev = [
+  "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = [
+  ".",
+  "dxfline2point",
+  "dxfline2point/dxf2ply",
+]
+testpaths = [
+  "dxfline2point/dxf2ply",
+]

@@ -1,34 +1,65 @@
 # ifc2mesh
 
-`ifc2mesh` 用于将 IFC 结构模型转换为可处理的三角网格与点云语义信息，并进一步完成轴线合并、节点拟合以及设计节点对比分析。
+`ifc2mesh` is a script-oriented toolbox for converting IFC structural models into
+triangle meshes, transferring component semantics onto measured point clouds,
+and fitting merged axes and junction nodes for downstream analysis.
 
-## 功能概览
+## What the repository contains
 
-- IFC 转网格与语义报告
-- 点云与网格的配准后标签转移
-- 基于轴线一致性与表面距离的构件分割
-- 构件轴线合并与节点拟合
-- DXF 线结构提取设计轴线与设计节点
+- `ifc2mesh.py`: export IFC elements as mesh files plus a semantic report
+- `mesh_pcd_segment.py`: transfer labels from mesh components onto point clouds
+- `mesh_pcd_segment_obb_axis.py`: segmentation with axis-consistency filtering
+- `mesh_pcd_segment_obb_axis_v2.py`: segmentation with axis, surface-distance,
+  and normal constraints
+- `extract_component_pcds.py`: split labeled point clouds into per-component files
+- `run_axis_merge_and_node_fit_v3.py`: merge nearby component axes and fit nodes
+- `run_axis_merge_and_node_fit_curve_v2_0.py`: curve-aware axis fitting workflow
+- `run_axis_merge_and_node_fit_curve_v2_prior.py`: prior-assisted curved-axis workflow
+- `dxfline2point/line2point.py`: extract design axes and nodes from DXF files
+- `dxfline2point/dxf2ply/dxf2ply.py`: sample DXF linework into PLY and compare
+  against measured nodes
 
-## 目录说明
+## Recommended environment
 
-- `ifc2mesh.py`：IFC 转网格、导出语义报告
-- `mesh_pcd_segment.py`：点云到网格的基础语义转移
-- `mesh_pcd_segment_obb_axis.py`：加入轴线一致性约束的分割流程
-- `mesh_pcd_segment_obb_axis_v2.py`：进一步加入表面距离与法向约束
-- `run_axis_merge_and_node_fit_v3.py`：轴线合并与节点拟合主流程
-- `dxfline2point/line2point.py`：DXF 设计轴线与设计节点生成
+- Python 3.10 or newer
+- Core dependencies from `requirements.txt`
+- Optional GPU backend: `torch`
 
-## 依赖
+Install the common environment with:
 
-- Python 3.10+
-- `ifcopenshell`
-- `open3d`
-- `numpy`
-- `matplotlib`（部分可视化）
-- `torch`（仅在启用 GPU 距离后端时需要）
+```bash
+pip install -r requirements.txt
+```
 
-## 建议
+For development utilities:
 
-- 代码仓库建议只保留脚本、少量示例配置和说明文档。
-- 大体量点云、网格、IFC、DXF 与中间结果建议存放在仓库外部，或后续改用 Git LFS 管理。
+```bash
+pip install -r requirements-dev.txt
+```
+
+## Repository layout
+
+The codebase is still primarily organized as executable scripts, but it now
+includes a small amount of project scaffolding to make long-term maintenance
+easier:
+
+- `requirements.txt` / `requirements-dev.txt`: reproducible environments
+- `pyproject.toml`: project metadata and test-path configuration
+- `LICENSE`: repository license
+- `dxfline2point/__init__.py`: package markers for DXF utilities
+- `run_axis_merge_and_node_fit_curve_v2.py`: compatibility shim for older imports
+
+## Typical workflow
+
+1. Run `ifc2mesh.py` to export IFC meshes and semantic metadata.
+2. Align measured point clouds into the mesh coordinate frame.
+3. Run one of the `mesh_pcd_segment*.py` scripts to transfer labels.
+4. Extract component-level point clouds when needed.
+5. Run the axis/node fitting scripts to merge axes and estimate junctions.
+6. Use the DXF utilities when comparing design nodes against measured nodes.
+
+## Notes on large data
+
+This repository intentionally tracks code and lightweight documentation only.
+Large IFC, DXF, PLY, PCD, and result folders should stay outside the repo or be
+managed with Git LFS if they must be versioned later.
