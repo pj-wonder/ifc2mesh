@@ -6,18 +6,11 @@ and fitting merged axes and junction nodes for downstream analysis.
 
 ## What the repository contains
 
-- `ifc2mesh.py`: export IFC elements as mesh files plus a semantic report
-- `mesh_pcd_segment.py`: transfer labels from mesh components onto point clouds
-- `mesh_pcd_segment_obb_axis.py`: segmentation with axis-consistency filtering
-- `mesh_pcd_segment_obb_axis_v2.py`: segmentation with axis, surface-distance,
-  and normal constraints
-- `extract_component_pcds.py`: split labeled point clouds into per-component files
-- `run_axis_merge_and_node_fit_v3.py`: merge nearby component axes and fit nodes
-- `run_axis_merge_and_node_fit_curve_v2_0.py`: curve-aware axis fitting workflow
-- `run_axis_merge_and_node_fit_curve_v2_prior.py`: prior-assisted curved-axis workflow
-- `dxfline2point/line2point.py`: extract design axes and nodes from DXF files
-- `dxfline2point/dxf2ply/dxf2ply.py`: sample DXF linework into PLY and compare
-  against measured nodes
+- `pipelines/`: IFC export and preprocessing workflows
+- `segmentation/`: point-cloud and mesh label-transfer workflows
+- `axis_fit/`: axis merging and node fitting workflows
+- top-level script names such as `ifc2mesh.py` and `mesh_pcd_segment.py`: compatibility entry points
+- `dxfline2point/`: DXF-based design-axis and design-node utilities
 
 ## Recommended environment
 
@@ -39,15 +32,17 @@ pip install -r requirements-dev.txt
 
 ## Repository layout
 
-The codebase is still primarily organized as executable scripts, but it now
-includes a small amount of project scaffolding to make long-term maintenance
-easier:
+The implementation files now live in module directories, while the original
+top-level filenames remain as thin wrappers so existing commands do not break:
 
+- `pipelines/ifc2mesh.py`: IFC mesh export implementation
+- `pipelines/extract_component_pcds.py`: per-component point-cloud extraction
+- `segmentation/mesh_pcd_segment*.py`: segmentation implementations
+- `axis_fit/run_axis_merge_and_node_fit*.py`: axis and node fitting implementations
 - `requirements.txt` / `requirements-dev.txt`: reproducible environments
 - `pyproject.toml`: project metadata and test-path configuration
 - `LICENSE`: repository license
 - `dxfline2point/__init__.py`: package markers for DXF utilities
-- `run_axis_merge_and_node_fit_curve_v2.py`: compatibility shim for older imports
 
 ## Typical workflow
 
