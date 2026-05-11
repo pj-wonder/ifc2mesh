@@ -9,6 +9,7 @@ and fitting merged axes and junction nodes for downstream analysis.
 - `pipelines/`: IFC export and preprocessing workflows
 - `segmentation/`: point-cloud and mesh label-transfer workflows
 - `axis_fit/`: axis merging and node fitting workflows
+- `design_nodes/`: DXF-based design-axis extraction and design-node comparison workflows
 - top-level script names such as `ifc2mesh.py` and `mesh_pcd_segment.py`: compatibility entry points
 - `dxfline2point/`: DXF-based design-axis and design-node utilities
 
@@ -39,10 +40,28 @@ top-level filenames remain as thin wrappers so existing commands do not break:
 - `pipelines/extract_component_pcds.py`: per-component point-cloud extraction
 - `segmentation/mesh_pcd_segment*.py`: segmentation implementations
 - `axis_fit/run_axis_merge_and_node_fit*.py`: axis and node fitting implementations
+- `design_nodes/line2point.py`: design axis/node extraction implementation
+- `design_nodes/dxf2ply/dxf2ply.py`: DXF sampling and measured-node comparison implementation
 - `requirements.txt` / `requirements-dev.txt`: reproducible environments
 - `pyproject.toml`: project metadata and test-path configuration
 - `LICENSE`: repository license
 - `dxfline2point/__init__.py`: package markers for DXF utilities
+
+## Unified CLI
+
+You can now run the main workflows from a single entry point:
+
+```bash
+python cli.py ifc-export -- --help
+python cli.py segment-axis-v2 -- --help
+python cli.py design-nodes -- --help
+```
+
+If you install the project metadata locally, the same entry point is also exposed as:
+
+```bash
+ifc2mesh-cli design-nodes -- --help
+```
 
 ## Typical workflow
 
