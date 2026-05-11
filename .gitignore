@@ -1,0 +1,49 @@
+# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# IDE and OS files
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+
+# Logs and temp files
+*.log
+*.tmp
+*.temp
+
+# Large generated geometry / point cloud assets
+*.ply
+*.pcd
+*.las
+*.laz
+*.e57
+*.xyz
+*.pts
+*.obj
+*.stl
+*.off
+*.npz
+*.npy
+
+# IFC / CAD source files if kept outside versioned examples
+*.ifc
+*.IFC
+*.dxf
+*.DXF
+
+# Generated reports and result folders
+result_run_ifc311_world/
+label_transfer/
+label_transfer_v2/
+node_fit_results/
+segment_output/
+outputs/
+tmp/
